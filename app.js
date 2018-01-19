@@ -60,11 +60,16 @@ const getLogout=function(req,res){
   res.redirect('/login');
 }
 
+const postTodo=function(req,res){
+  console.log(req.body);
+  res.end();
+}
 
 app.use(loadUser);
 app.use(new LoggerHandler().getRequestHandler());
 app.get('/login',getLogin);
 app.post('/login',postLogin);
 app.get('/logout',getLogout);
+app.post('/post_addTodo',postTodo);
 app.postServe(new FileHandler('public').getRequestHandler());
 module.exports = app;

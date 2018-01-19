@@ -23,3 +23,8 @@ const isRedirectTo=(res,path)=>{
   assert.equal(location,path);
 }
 exports.isRedirectTo = isRedirectTo;
+
+const isBodyContains = function(res,data){
+  assert.equal(res.body,data);
+}
+exports.isBodyContains = isBodyContains;
