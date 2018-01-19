@@ -69,4 +69,19 @@ describe('App Test',()=>{
       })
     })
   })
+  describe('create',()=>{
+    it('should show creat todo page when user has session',()=>{
+      request(app,{method:'GET',url:'/create',headers:{'Cookie':`sessionId=${sessionId}`}},(res)=>{
+        testHelper.isEqualStatusCode(res,200);
+        testHelper.shouldHaveCookie(res,'sessionId',sessionId);
+      })
+    })
+    it('should redirect to login when user not have sesssion',()=>{
+      request(app,{method:'GET',url:'/create'},(res)=>{
+        testHelper.isEqualStatusCode(res,302);
+        testHelper.shouldNotHaveCookie(res,'sessionId',sessionId);
+        testHelper.isRedirectTo(res,'/login');
+      })
+    })
+  })
 })
