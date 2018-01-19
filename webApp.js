@@ -13,11 +13,6 @@ const invoke = function (req, res) {
   if (handler) {
     handler(req, res);
   }
-  else{
-    res.statusCode = 404;
-    res.write('Page Not Found');
-    res.end();
-  }
 };
 
 const redirect = function (path) {

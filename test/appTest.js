@@ -32,11 +32,10 @@ describe('App Test',()=>{
         testHelper.shouldHaveCookie(res,'error','Invalid User');        
       })
     })
-    it('should redirect to login for valid user',()=>{
-      request(app,{method:'POST',url:'/login',user:'dhana'},(res)=>{
+    it('should redirect to home for valid user',()=>{
+      request(app,{method:'POST',url:'/login',body:'userName=dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,302);
-        testHelper.isRedirectTo(res,'/home');        
-        testHelper.shouldHaveCookie(res,'sessionId',`${sessionId}`);
+        testHelper.isRedirectTo(res,'/home');
       })
     })
   })
@@ -52,6 +51,21 @@ describe('App Test',()=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.isRedirectTo(res,'/login');
         testHelper.shouldNotHaveCookie(res,'sessionId',sessionId);
+      })
+    }) 
+  })
+  describe('home',()=>{
+    it('should show home page when user has session',()=>{
+      request(app,{method:'GET',url:'/home',headers:{'Cookie':`sessionId=${sessionId}`}},(res)=>{
+        testHelper.isEqualStatusCode(res,200);
+        testHelper.shouldHaveCookie(res,'sessionId',sessionId);
+      })
+    })
+    it('should redirect to login when user not have sesssion',()=>{
+      request(app,{method:'GET',url:'/home'},(res)=>{
+        testHelper.isEqualStatusCode(res,302);
+        testHelper.shouldNotHaveCookie(res,'sessionId',sessionId);
+        testHelper.isRedirectTo(res,'/login');
       })
     })
   })
