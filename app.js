@@ -66,5 +66,5 @@ app.use(new LoggerHandler().getRequestHandler());
 app.get('/login',getLogin);
 app.post('/login',postLogin);
 app.get('/logout',getLogout);
-app.postServe(new FileHandler().getRequestHandler());
+app.postServe(new FileHandler('public').getRequestHandler());
 module.exports = app;
