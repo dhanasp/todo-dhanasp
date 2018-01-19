@@ -3,6 +3,7 @@ const assert = chai.assert;
 const app = require('../app.js');
 const request = require('./testSetup.js');
 const testHelper = require('./testHelper.js');
+let sessionId = process.env.sessionId || '';
 
 describe('App Test',()=>{
   describe('404,Page Not Found ',()=>{
@@ -28,6 +29,12 @@ describe('App Test',()=>{
       request(app,{method:'GET',url:'/login',headers:{'Cookie':'error=Invalid User'}},(res)=>{
         testHelper.isEqualStatusCode(res.statusCode,200);
         testHelper.hasCookie(res,'error','Invalid User');        
+      })
+    })
+    it('should redirect to login for valid user',()=>{
+      request(app,{method:'POST',url:'/login',user:'dhana'},(res)=>{
+        testHelper.isEqualStatusCode(res.statusCode,302);
+        testHelper.hasCookie(res,'sessionId',`${sessionId}`);
       })
     })
   })

@@ -27,6 +27,9 @@ const getLogin = function(req,res){
 const postLogin = function(req,res){
   let user = req.user || '';
   if(user){
+    let sessionId = new Date().getTime();
+    process.env.sessionId = sessionId;
+    res.setHeader('Set-Cookie',`sessionId=${sessionId}`);
     res.redirect('/home');
     return;
   }
