@@ -1,16 +1,22 @@
 const chai = require('chai');
 const assert = chai.assert;
 
-const isEqualStatusCode=(resStatus, expected)=>{
-  assert.equal(resStatus, expected);
+const isEqualStatusCode=(res, expected)=>{
+  assert.equal(res.statusCode, expected);
 };
 exports.isEqualStatusCode = isEqualStatusCode;
 
-const hasCookie = (res,cookie,message)=>{
+const shouldHaveCookie = (res,cookie,message)=>{
   let cookieText = res.headers['Set-Cookie'];
   assert.include(cookieText,`${cookie}=${message}`);
 };
-exports.hasCookie = hasCookie;
+exports.shouldHaveCookie = shouldHaveCookie;
+
+const shouldNotHaveCookie = (res,cookie,message)=>{
+  let cookieText = res.headers['Set-Cookie'];
+  assert.notInclude(cookieText,`${cookie}=${message}`);
+};
+exports.shouldNotHaveCookie = shouldNotHaveCookie;
 
 const isRedirectTo=(res,path)=>{
   let location = res.headers['location'];  

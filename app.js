@@ -37,7 +37,15 @@ const postLogin = function(req,res){
   res.redirect('/login');
 }
 
+const getLogout=function(req,res){
+  let expireDate =  new Date(0).toUTCString();
+  res.setHeader('Set-Cookie',`sessionId; Expires=${expireDate}`)
+  res.redirect('/login');
+}
+
+
 app.use(loadUser);
 app.get('/login',getLogin);
 app.post('/login',postLogin);
+app.get('/logout',getLogout);
 module.exports = app;
