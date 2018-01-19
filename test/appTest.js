@@ -6,6 +6,13 @@ const testHelper = require('./testHelper.js');
 let sessionId = process.env.sessionId || '';
 
 describe('App Test',()=>{
+  describe('/',()=>{
+    it('should serve login page',()=>{
+      request(app,{method:'GET',url:'/'},(res)=>{
+        testHelper.isEqualStatusCode(res,200);
+      })
+    })
+  })
   describe('404,Page Not Found ',()=>{
     it('should show page not found for invalid/bad request',()=>{
       request(app,{method:'GET',url:'/badFile'},(res)=>{

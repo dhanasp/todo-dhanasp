@@ -64,9 +64,12 @@ const postTodo=function(req,res){
   console.log(req.body);
   res.end();
 }
-
+const serveLogin=function(req,res){
+  req.url ='/login';
+}
 app.use(loadUser);
 app.use(new LoggerHandler().getRequestHandler());
+app.get('/',serveLogin);
 app.get('/login',getLogin);
 app.post('/login',postLogin);
 app.get('/logout',getLogout);
