@@ -23,6 +23,7 @@ describe('App Test',()=>{
       request(app,{method:'POST',url:'/login'},(res)=>{
         testHelper.isEqualStatusCode(res.statusCode,302);
         testHelper.hasCookie(res,'error','Invalid User');
+        testHelper.isRedirectTo(res,'/login');
       })
     })
     it('should show login page with error message',()=>{
@@ -34,6 +35,7 @@ describe('App Test',()=>{
     it('should redirect to login for valid user',()=>{
       request(app,{method:'POST',url:'/login',user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res.statusCode,302);
+        testHelper.isRedirectTo(res,'/home');        
         testHelper.hasCookie(res,'sessionId',`${sessionId}`);
       })
     })

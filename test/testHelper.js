@@ -11,3 +11,9 @@ const hasCookie = (res,cookie,message)=>{
   assert.include(cookieText,`${cookie}=${message}`);
 };
 exports.hasCookie = hasCookie;
+
+const isRedirectTo=(res,path)=>{
+  let location = res.headers['location'];  
+  assert.equal(location,path);
+}
+exports.isRedirectTo = isRedirectTo;
