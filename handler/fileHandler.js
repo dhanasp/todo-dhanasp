@@ -1,24 +1,26 @@
 const DefaultHandler = require('./defaultHandler.js');
 const getFilePath=require('../lib.js').getFilePath;
 const getContentType=require('../lib.js').getContentType;
-const fs = require('fs');
 
 class FileHandler extends DefaultHandler{
-  constructor(root){
+  constructor(root,fs){
     super();
     this.root=root;
+    this.fs =fs;
   }
   execute(req,res){
-    if(req.url=='/login') return;
+    let error = req.cookie.error || '';
     let filePath = getFilePath(req.url);
     let type = getContentType(filePath);
-    fs.readFile(`${this.root}/${filePath}`,'utf-8',(err,data)=>{
-      if(err) console.log(err);
+    let path = `${this.root}/${filePath}`;
+    if(this.fs.existsSync(path)){
+      let data = this.fs.readFileSync(path,'utf-8');
       res.statusCode = 200;
       res.setHeader('Content-Type',type);
+      data = data.replace(/LOGIN_ERROR/, error);
       res.write(data);
       res.end();      
-    })
+    }
   }
 }
 
