@@ -6,16 +6,15 @@
 </head>
 <body>
   <h2>Create TODO</h2>
-  title:
-  <input type="text" id="title"><br>
-  Description:
-  <input type="text" id="desc"><br>
-  items:
-  <ol id="itemList">
-
-  </ol>
-  <input type="text"  id="itemBox">
-  <button type="submit" id="addItem">+</button><br>
- <a href="home"> <button type="submit" id="submit" >submit</button> </a>
+  <form action="post_addTodo" method="post">
+    Title:
+    <input type="text" name="title"><br>
+    Description:
+    <input type="text" name="desc"><br>
+    items:
+    <button type="button" id="addItem">AddItem</button><br>
+    <div id="itemList"></div>
+    <button type="submit" id="submit" >submit</button>
+  </form>
 </body>
 </html>
