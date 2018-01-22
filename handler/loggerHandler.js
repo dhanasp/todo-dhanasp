@@ -13,9 +13,7 @@ class LoggerHandler extends DefaultHandler{
     let logs = [`-------------------------`,`method=>${req.method} url=>${req.url}`,
     `headers=>${toString(req.headers)}`,`cookie=>${toString(req.cookie)}`,
     `body=>${toString(req.body)}`].join('\n');
-    this.fs.appendFile(this.filePath,logs,(err)=>{
-      if(err) console.log(err);
-    })
+    this.fs.appendFile(this.filePath,logs,(err)=>{});
   }
 }
 

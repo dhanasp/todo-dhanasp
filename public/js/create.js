@@ -4,7 +4,7 @@ const loadPage=function(){
 const addItem=function(){
   let input = document.createElement('input');
   let br = document.createElement('br');  
-  input.name="item";
+  input.name="items";
   input.type="text";
   document.getElementById('itemList').appendChild(input);
   document.getElementById('itemList').appendChild(br)

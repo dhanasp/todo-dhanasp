@@ -1,18 +1,25 @@
+const Todos = require('./todos.js');
 class TodoHandler {
-  constructor(user){
-    this.user=user;
+  constructor(){
+    this.user=undefined;
     this.data={};
-    this.id = 1;
+    this.todos = new Todos();
+  }
+  setUser(user){
+    this.user = user;
   }
   addTodo(todoDetails){
-    let todo = new Todo();
-    todo.parse(todoDetails);
-    let todo = todo.getParsedTodo();
-    this.data[this.id]=todo;
-    this.increaseId();
+    this.todos.addTodo(todoDetails);
+    this.data = this.todos.getTodos();    
   }
-  increaseId(){
-    this.id++;
+  getTitlesTemplate(){
+    let todoId = Object.keys(this.data);
+    return todoId.map((id)=>{
+      return `<a href=\"${this.user}/todo/${id}\">${this.data[id].title}</a>`;
+    }).join('<br>');
+  }
+  getUserTodos(){
+    return this.data;
   }
 }
-
+module.exports = TodoHandler;

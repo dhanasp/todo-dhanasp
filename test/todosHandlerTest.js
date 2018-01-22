@@ -4,6 +4,7 @@ const Items=require('../todosHandler/items.js');
 const Item=require('../todosHandler/item.js');
 const Todo=require('../todosHandler/todo.js');
 const Todos=require('../todosHandler/todos.js');
+const TodoHandler=require('../todosHandler/todoHandler.js');
 
 
 describe('Todos Handlers',()=>{
@@ -96,7 +97,7 @@ describe('Todos Handlers',()=>{
       it('should add todo in todo list',()=>{
         let todos = new Todos();
         todos.addTodo({title:'todoApp',desc:'create app',items:['view']});
-        let actual = todos.getTodo();
+        let actual = todos.getTodos();
         let expected = {1:{title:'todoApp',desc:'create app',items:{1:{name:'view',isDone:false}}}};
         assert.deepEqual(actual,expected);        
       })
@@ -107,8 +108,29 @@ describe('Todos Handlers',()=>{
         todos.addTodo({title:'todoApp',desc:'create app',items:['view']});
         todos.addTodo({title:'flower catalog',desc:'create flower catalog',items:[]});
         todos.delete(2);
-        let actual = todos.getTodo();
+        let actual = todos.getTodos();
         let expected= {1:{title:'todoApp',desc:'create app',items:{1:{name:'view',isDone:false}}}};
+        assert.deepEqual(actual,expected);                      
+      })
+    })
+  })
+  describe('todoHandler',()=>{
+    describe('addTodo',()=>{
+      it('should add todo in users todos',()=>{
+        let todoHandler = new TodoHandler();
+        todoHandler.addTodo({title:'todoApp',desc:'create app',items:['view']});
+        let actual = todoHandler.getUserTodos();
+        let expected = {1:{title:'todoApp',desc:'create app',items:{1:{name:'view',isDone:false}}}};
+        assert.deepEqual(actual,expected);        
+      })
+    })
+    describe('get template of titles',()=>{
+      it('should return templates of titles',()=>{
+        let todoHandler = new TodoHandler();
+        todoHandler.setUser('dhana');
+        todoHandler.addTodo({title:'todoApp',desc:'create app',items:['view']});
+        let actual = todoHandler.getTitlesTemplate();
+        let expected= `<a href="dhana/todo/1">todoApp</a>`
         assert.deepEqual(actual,expected);                      
       })
     })

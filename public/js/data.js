@@ -1,1 +1,0 @@
-var data = `<p>Todo App</p><p>flower Catalog<p>`;

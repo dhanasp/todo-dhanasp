@@ -15,7 +15,7 @@ class Todos {
     this.todos[this.id] =todo.getTodo();
     this.increaseId();
   }
-  getTodo(){
+  getTodos(){
     return this.todos;
   }
   increaseId(){

@@ -3,8 +3,9 @@ const fs = require('fs');
 const registeredUsers = [{userName: 'dhana'}]
 
 class PostLoginHandler extends DefaultHandler {
-  constructor() {
+  constructor(todoHandler) {
     super();
+    this.todoHandler=todoHandler;
   }
   execute(req, res) {
     let user = this.getValidUser(req, res);
@@ -15,6 +16,7 @@ class PostLoginHandler extends DefaultHandler {
     let sessionId = process.env.sessionId || new Date().getTime();
     user.sessionId = sessionId;
     res.setHeader('Set-Cookie', [`sessionId=${sessionId}`, `userName=${user.userName}`]);
+    this.todoHandler.setUser(user.userName);
     res.redirect('/home');
   }
   getValidUser(req, res) {
