@@ -39,12 +39,6 @@ const parseCookie = function (cookie) {
   return cookie.split(';').map(getKeyValue).reduce(cookieObj, {}) || {};
 };
 
-const pageNotFound = function(){
-  this.statusCode = 404;
-  this.write('File Not Found !');
-  this.end();
-};
-
 const get = function (url, handler) {
   this._appHandlers.GET[url] = handler;
 };
@@ -64,7 +58,6 @@ const postServe = function(handler){
 const main = function (req, res) {
   console.log(req.method, req.url);
   res.redirect = redirect.bind(res);
-  res.pageNotFound = pageNotFound.bind(res);
   req.cookie = parseCookie(req.headers.cookie || '');
   let contents = '';
   req.on('data', (data) => {

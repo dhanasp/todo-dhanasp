@@ -1,93 +1,94 @@
-const chai = require('chai');
-const assert = chai.assert;
 const app = require('../app.js');
 const request = require('./testSetup.js');
 const testHelper = require('./testHelper.js');
-let sessionId = process.env.sessionId || '';
-
+let sessionId = new Date().getTime();
+process.env.sessionId = sessionId;
 describe('App Test',()=>{
   describe('/',()=>{
-    it('should serve login page',()=>{
+    it('should serve login page',(done)=>{
       request(app,{method:'GET',url:'/'},(res)=>{
         testHelper.isEqualStatusCode(res,200);
+        done();
       })
     })
   })
   describe('404,Page Not Found ',()=>{
-    it('should show page not found for invalid/bad request',()=>{
+    it('should show page not found for invalid/bad request',(done)=>{
       request(app,{method:'GET',url:'/badFile'},(res)=>{
         testHelper.isEqualStatusCode(res,404);
+        done();
       })
     })
   })
   describe('login',()=>{
-    it('should show login page',()=>{
+    it('should show login page',(done)=>{
       request(app,{method:'GET',url:'/login'},(res)=>{
         testHelper.isEqualStatusCode(res,200);
+        done();
       })
     })
-    it('should redirect to login for invalid user',()=>{
+    it('should redirect to login for invalid user',(done)=>{
       request(app,{method:'POST',url:'/login'},(res)=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.shouldHaveCookie(res,'error','Invalid User');
         testHelper.isRedirectTo(res,'/login');
+        done();
       })
     })
-    it('should show login page with error message',()=>{
-      request(app,{method:'GET',url:'/login',headers:{'Cookie':'error=Invalid User'}},(res)=>{
+    it('should show login page with error message',(done)=>{
+      request(app,{method:'GET',url:'/login',headers:{'cookie':'error=Invalid User'}},(res)=>{
         testHelper.isEqualStatusCode(res,200);
-        testHelper.shouldHaveCookie(res,'error','Invalid User');        
+        testHelper.shouldNotHaveCookie(res,'error','Invalid User');        
+        done();
       })
     })
-    it('should redirect to home for valid user',()=>{
+    it('should redirect to home for valid user',(done)=>{
       request(app,{method:'POST',url:'/login',body:'userName=dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.isRedirectTo(res,'/home');
+        done();
+      })
+    })
+    it('should show login page and delete the error cookie',(done)=>{
+      request(app,{method:'GET',url:'/login',headers:{'cookie':'error=Invalid User'}},(res)=>{
+        testHelper.isEqualStatusCode(res,200);
+        testHelper.shouldNotHaveCookie(res,'error','Invalid User');        
+        done();
       })
     })
   })
   describe('logout',()=>{
-    it('should redirect to login',()=>{
+    it('should redirect to login',(done)=>{
       request(app,{method:'GET',url:'/logout'},(res)=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.isRedirectTo(res,'/login');
+        done();
       })
     })
-    it('should redirect to login and delete all cookies',()=>{
-      request(app,{method:'GET',url:'/logout',headers:{'Cookie':`sessionId=${sessionId}`}},(res)=>{
+    it('should redirect to login and delete all cookies',(done)=>{
+      request(app,{method:'GET',url:'/logout',headers:{'cookie':`sessionId=${sessionId}`}},(res)=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.isRedirectTo(res,'/login');
         testHelper.shouldNotHaveCookie(res,'sessionId',sessionId);
+        done();
       })
     }) 
   })
   describe('home',()=>{
-    it('should show home page when user has session',()=>{
-      request(app,{method:'GET',url:'/home',headers:{'Cookie':`sessionId=${sessionId}`}},(res)=>{
+    it('should show home page when user has session',(done)=>{
+      request(app,{method:'GET',url:'/home',headers:{'cookie':`sessionId=${sessionId}`}},(res)=>{
         testHelper.isEqualStatusCode(res,200);
-        testHelper.shouldHaveCookie(res,'sessionId',sessionId);
+        testHelper.isBodyContains(res,'Home');
+        done();
       })
-    })
-    it('should redirect to login when user not have sesssion',()=>{
-      request(app,{method:'GET',url:'/home'},(res)=>{
-        testHelper.isEqualStatusCode(res,302);
-        testHelper.shouldNotHaveCookie(res,'sessionId',sessionId);
-        testHelper.isRedirectTo(res,'/login');
-      })
-    })
+    }) 
   })
   describe('create',()=>{
-    it('should show creat todo page when user has session',()=>{
-      request(app,{method:'GET',url:'/create',headers:{'Cookie':`sessionId=${sessionId}`}},(res)=>{
+    it('should show creat todo page when user has session',(done)=>{
+      request(app,{method:'GET',url:'/create',headers:{'cookie':`sessionId=${sessionId}`}},(res)=>{
         testHelper.isEqualStatusCode(res,200);
-        testHelper.shouldHaveCookie(res,'sessionId',sessionId);
-      })
-    })
-    it('should redirect to login when user not have sesssion',()=>{
-      request(app,{method:'GET',url:'/create'},(res)=>{
-        testHelper.isEqualStatusCode(res,302);
-        testHelper.shouldNotHaveCookie(res,'sessionId',sessionId);
-        testHelper.isRedirectTo(res,'/login');
+        testHelper.isBodyContains(res,'Create TODO')
+        done();
       })
     })
   })

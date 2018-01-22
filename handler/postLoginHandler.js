@@ -7,18 +7,15 @@ class PostLoginHandler extends DefaultHandler {
     super();
   }
   execute(req, res) {
-    if (req.method == 'POST' && req.url == '/login') {
-      let user = this.getValidUser(req, res);
-      if (!user) {
-        this.showLoginFailed(res);
-        return;
-      }
-      let sessionId = new Date().getTime();
-      process.env.sessionId = sessionId;
-      user.sessionId = sessionId;
-      res.setHeader('Set-Cookie', [`sessionId=${sessionId}`, `userName=${user.userName}`]);
-      res.redirect('/home');
+    let user = this.getValidUser(req, res);
+    if (!user) {
+      this.showLoginFailed(res);
+      return;
     }
+    let sessionId = process.env.sessionId || new Date().getTime();
+    user.sessionId = sessionId;
+    res.setHeader('Set-Cookie', [`sessionId=${sessionId}`, `userName=${user.userName}`]);
+    res.redirect('/home');
   }
   getValidUser(req, res) {
     return registeredUsers.find(function (regUser) {

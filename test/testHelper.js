@@ -25,6 +25,6 @@ const isRedirectTo=(res,path)=>{
 exports.isRedirectTo = isRedirectTo;
 
 const isBodyContains = function(res,data){
-  assert.equal(res.body,data);
+  assert.isOk(res.body.includes(data),data);
 }
 exports.isBodyContains = isBodyContains;

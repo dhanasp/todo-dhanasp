@@ -4,15 +4,14 @@ const FileHandler = require('./handler/fileHandler.js');
 const GetLoginHandler = require('./handler/getLoginHandler.js');
 const PostLoginHandler = require('./handler/postLoginHandler.js');
 const LogoutHandler = require('./handler/logoutHandler.js');
-const CompositeHandler = require('./handler/compositeHandler.js'); 
 const LoadUser = require('./handler/loadUser.js');
 const PageNotFound = require('./handler/pageNotFound.js');
 const fs = require('fs');
 let app= webApp.create();
-
+  
 const postTodo=function(req,res){
   console.log(req.body);
-  res.end();
+  res.redirect('/home');
 }
 
 const checkForLogin = function(req,res){
@@ -21,16 +20,14 @@ const checkForLogin = function(req,res){
   }
 };
 
-let compositeHandler = new CompositeHandler();
-compositeHandler.addHandlers(new LoggerHandler());
-compositeHandler.addHandlers(new LoadUser());
-compositeHandler.addHandlers(new GetLoginHandler(fs))
-compositeHandler.addHandlers(new PostLoginHandler())
-compositeHandler.addHandlers(new LogoutHandler())
-compositeHandler.addHandlers(new FileHandler('public',fs));
-compositeHandler.addHandlers(new PageNotFound());
-
 app.use(checkForLogin)
-app.use(compositeHandler.getRequestHandler())
-// app.post('/post_addTodo',postTodo);
+app.use(new LoggerHandler(fs,'./request.log').getRequestHandler());
+app.use(new LoadUser().getRequestHandler());
+app.get('/login',new GetLoginHandler(fs).getRequestHandler())
+app.post('/login',new PostLoginHandler().getRequestHandler())
+app.get('/logout',new LogoutHandler().getRequestHandler())
+app.post('/post_addTodo',postTodo);
+app.postServe(new FileHandler('public',fs).getRequestHandler());
+app.postServe(new PageNotFound().getRequestHandler());
+
 module.exports = app;

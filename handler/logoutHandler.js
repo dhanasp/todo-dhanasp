@@ -4,11 +4,9 @@ class LogoutHandler extends DefaultHandler {
     super();
   }
   execute(req, res) {
-    if(req.method=='GET' && req.url=='/logout'){
-      let expireDate =  new Date(0).toUTCString();
-      res.setHeader('Set-Cookie',`sessionId; Expires=${expireDate}`)
-      res.redirect('/login');
-    }
+    let expireDate = new Date(0).toUTCString();
+    res.setHeader('Set-Cookie', `sessionId; Expires=${expireDate}`)
+    res.redirect('/login');
   }
 }
 

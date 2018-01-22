@@ -12,7 +12,7 @@ class FileHandler extends DefaultHandler{
     let error = req.cookie.error || '';
     let filePath = getFilePath(req.url);
     let type = getContentType(filePath);
-    let path = `${this.root}/${filePath}`;
+    let path = `${this.root}${filePath}`;
     if(this.fs.existsSync(path)){
       let data = this.fs.readFileSync(path,'utf-8');
       res.statusCode = 200;

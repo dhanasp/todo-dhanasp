@@ -5,12 +5,10 @@ class GetLoginHandler extends DefaultHandler {
     this.fs=fs;
   }
   execute(req, res) {
-    if (req.method == 'GET' && req.url == '/login') {
-      let error = req.cookie.error || '';
-      if (error) {
-        let expireDate = new Date(0).toUTCString();
-        res.setHeader('Set-Cookie', `error=; Expires=${expireDate}`)
-      }
+    let error = req.cookie.error || '';
+    if (error) {
+      let expireDate = new Date(0).toUTCString();
+      res.setHeader('Set-Cookie', `error=; Expires=${expireDate}`)
     }
   }
 }

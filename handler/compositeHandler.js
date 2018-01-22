@@ -7,6 +7,7 @@ class CompositeHandler extends DefaultHandler {
   }
   execute(req,res){
     for(let i=0; i<this.handlers.length;i++){
+      debugger;
       this.handlers[i].getRequestHandler();
       if(res.finished) return;
     }

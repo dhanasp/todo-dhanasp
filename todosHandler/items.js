@@ -4,7 +4,7 @@ class Items {
     this.items={};
     this.id = 1;
   }
-  parse(itemList){
+  add(itemList){
     itemList.forEach((itemName)=>{
       this.addNewItem(itemName);
     });
@@ -12,7 +12,7 @@ class Items {
   getItems(){
     return this.items;
   }
-  inceaseId(){
+  increaseId(){
     this.id++;
   }
   delete(itemId){
@@ -22,7 +22,7 @@ class Items {
     let item = new Item();
     item.add(itemName);
     this.items[this.id] =item.getItem();
-    this.inceaseId();
+    this.increaseId();
   }
 }
 module.exports = Items;
