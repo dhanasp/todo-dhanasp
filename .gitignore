@@ -5,3 +5,4 @@ node_modules/
 foo.js
 coverage/
 public/js/data.js
+public/js/todo.js

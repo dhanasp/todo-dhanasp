@@ -16,13 +16,24 @@ const serveLogin = function(req,res){
   req.url = '/login'
 };
 
+const viewTodo = function(req,res){
+  let user = req.cookie.userName;
+  if(req.url.startsWith(`/${user}/todo/`)){
+    let id = req.url.split('/').pop();
+    let template = todoHandler.getTodoTemplate(id);
+    fs.writeFile('public/js/todo.js',`var todo = \`${template}\``,err=>{});
+    req.url = '/view';
+  }
+}
+
 app.use(new LoggerHandler(fs,'./request.log').getRequestHandler());
 app.use(new LoadUser().getRequestHandler());
 app.get('/',serveLogin);
-app.get('/login',new GetLoginHandler(fs).getRequestHandler())
+app.get('/login',new GetLoginHandler(fs).getRequestHandler());
 app.post('/login',new PostLoginHandler(todoHandler).getRequestHandler())
 app.get('/logout',new LogoutHandler().getRequestHandler())
-app.post('/post_addTodo',new PostTodoHandler(todoHandler,fs,'public/js/data.js').getRequestHandler());
+app.post('/addTodo',new PostTodoHandler(todoHandler,fs,'public/js/data.js').getRequestHandler());
+app.postServe(viewTodo);
 app.postServe(new FileHandler('public',fs).getRequestHandler());
 app.postServe(new PageNotFound().getRequestHandler());
 

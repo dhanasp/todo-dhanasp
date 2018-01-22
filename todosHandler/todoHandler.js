@@ -1,4 +1,5 @@
 const Todos = require('./todos.js');
+const lib = require('../lib.js');
 class TodoHandler {
   constructor(){
     this.user=undefined;
@@ -7,6 +8,7 @@ class TodoHandler {
   }
   setUser(user){
     this.user = user;
+    this.data = {}; //read from json
   }
   addTodo(todoDetails){
     this.todos.addTodo(todoDetails);
@@ -20,6 +22,10 @@ class TodoHandler {
   }
   getUserTodos(){
     return this.data;
+  }
+  getTodoTemplate(todoId){
+    let todo = this.data[todoId];
+    return lib.getTemplate(todo);
   }
 }
 module.exports = TodoHandler;
