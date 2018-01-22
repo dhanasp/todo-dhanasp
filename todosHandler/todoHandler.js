@@ -14,10 +14,10 @@ class TodoHandler {
     this.todos.addTodo(todoDetails);
     this.data = this.todos.getTodos();    
   }
-  getTitlesTemplate(){
+  getTitlesTemplate(user){
     let todoId = Object.keys(this.data);
     return todoId.map((id)=>{
-      return `<a href=\"${this.user}/todo/${id}\">${this.data[id].title}</a>`;
+      return `<a href=\"${user}/todo/${id}\">${this.data[id].title}</a>`;
     }).join('<br>');
   }
   getUserTodos(){

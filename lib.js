@@ -26,7 +26,6 @@ exports.getFilePath=getFilePath;
 
 
 const getTemplate=function(todo){
-  console.log(todo);
   let titleTemp = `Title: <label>${todo.title}</label>`
   let descTemp = `Description: <label>${todo.desc}</label>`
   let itemTemp = Object.keys(todo.items).map(itemId=>{

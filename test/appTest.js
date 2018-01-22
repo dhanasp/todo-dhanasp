@@ -92,4 +92,22 @@ describe('App Test',()=>{
       })
     })
   })
+  describe('add todo',()=>{
+    it('should add todo and redirect to home',(done)=>{
+      request(app,{method:'POST',url:'/addTodo',body:'title=todoApp&desc=create todo&items=view&items=delete',headers:{'cookie':`userName=dhana`}},(res)=>{
+        testHelper.isEqualStatusCode(res,302);
+        testHelper.isRedirectTo(res,'/home');        
+        done();
+      })
+    })
+  })
+  describe('view todo',()=>{
+    it('should view specific todo in view page',(done)=>{
+      request(app,{method:'GET',url:'/dhana/todo/1',headers:{'cookie':`userName=dhana`}},(res)=>{
+        testHelper.isEqualStatusCode(res,200);
+        testHelper.isBodyContains(res,'View Todo');        
+        done();
+      })
+    })
+  })
 })

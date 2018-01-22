@@ -127,11 +127,19 @@ describe('Todos Handlers',()=>{
     describe('get template of titles',()=>{
       it('should return templates of titles',()=>{
         let todoHandler = new TodoHandler();
-        todoHandler.setUser('dhana');
         todoHandler.addTodo({title:'todoApp',desc:'create app',items:['view']});
-        let actual = todoHandler.getTitlesTemplate();
+        let actual = todoHandler.getTitlesTemplate('dhana');
         let expected= `<a href="dhana/todo/1">todoApp</a>`
         assert.deepEqual(actual,expected);                      
+      })
+    })
+    describe('get Todo template',()=>{
+      it('should return todo template',()=>{
+        let todoHandler = new TodoHandler();
+        todoHandler.addTodo({title:'todoApp',desc:'create app',items:['view']});
+        let actual = todoHandler.getTodoTemplate(1);
+        let expected = `Title: <label>todoApp</label><br>Description: <label>create app</label><br><input type="checkbox" id="1"><label id="1"> view </label><button id="1"> Delete </button>`
+        assert.deepEqual(actual,expected);                              
       })
     })
   })
