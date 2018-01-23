@@ -8,9 +8,6 @@ class PostTodoHandler extends DefaultHandler {
   }
   execute(req,res){
     this.todoHandler.addTodo(req.body);
-    let user = req.cookie.userName;
-    let titlesTemplate = this.todoHandler.getTitlesTemplate(user);
-    this.fs.writeFile(this.filePath,`var data = \`${titlesTemplate}\``,(err)=>{});
     res.redirect('/home');
   }
 }

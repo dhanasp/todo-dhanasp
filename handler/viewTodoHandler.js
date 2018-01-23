@@ -8,10 +8,14 @@ class ViewTodoHandler extends DefaultHandler {
   execute(req,res){
     let user = req.cookie.userName;
     if(req.url.startsWith(`/${user}/todo/`)){
-      let id = req.url.split('/').pop();
-      let template = this.todoHandler.getTodoTemplate(id);
-      this.fs.writeFile('public/js/todo.js',`var todo = \`${template}\``,err=>{});
-      req.url = '/view';
+      let todoId = req.url.split('/').pop();
+      let todoTemplate = this.todoHandler.getTodoTemplate(todoId);
+      let data = this.fs.readFileSync(`public/view.html`,'utf-8');
+      data = data.replace(/TODO_DETAILS/,todoTemplate);
+      res.setHeader('Set-Cookie',`todoId=${todoId}`);
+      res.setHeader('content-type','text/html');
+      res.write(data);
+      res.end();
     }
   }
 }

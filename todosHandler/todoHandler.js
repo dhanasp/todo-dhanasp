@@ -27,5 +27,8 @@ class TodoHandler {
     let todo = this.data[todoId];
     return lib.getTemplate(todo);
   }
+  deleteTodo(todoId){
+    this.todos.delete(todoId);
+  }
 }
 module.exports = TodoHandler;

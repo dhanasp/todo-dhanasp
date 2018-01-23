@@ -110,4 +110,13 @@ describe('App Test',()=>{
       })
     })
   })
+  describe('delete todo',()=>{
+    it('should delete todo from todo list',(done)=>{
+      request(app,{method:'GET',url:'/delete-todo',headers:{'cookie':`todoId=1`}},(res)=>{
+        testHelper.isEqualStatusCode(res,302);
+        testHelper.isRedirectTo(res,'/home');
+        done();
+      })
+    })
+  })
 })

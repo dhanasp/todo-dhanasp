@@ -9,6 +9,7 @@ class FileHandler extends DefaultHandler{
     this.fs =fs;
   }
   execute(req,res){
+    if(req.url=='/home') return;
     let error = req.cookie.error || '';
     let filePath = getFilePath(req.url);
     let type = getContentType(filePath);
