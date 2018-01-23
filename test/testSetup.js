@@ -7,10 +7,10 @@ let request = function(app,option,execute){
   req.method = option.method;
   req.url = option.url;
   req.body = option.body;
-  // req.user = option.user || '';
+  req.user = option.user || '';
   let res = {
     end:()=>{
-      req.finished = true;
+      res.finished = true;
       let result ={
         statusCode:res.statusCode||200,
         body:resContents,

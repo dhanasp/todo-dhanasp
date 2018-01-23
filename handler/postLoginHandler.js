@@ -1,11 +1,11 @@
 const DefaultHandler = require('./defaultHandler.js');
 const fs = require('fs');
-const registeredUsers = [{userName: 'dhana'}]
 
 class PostLoginHandler extends DefaultHandler {
-  constructor(todoHandler) {
+  constructor(todoHandler,users) {
     super();
     this.todoHandler=todoHandler;
+    this.registeredUsers=users;
   }
   execute(req, res) {
     let user = this.getValidUser(req, res);
@@ -20,7 +20,7 @@ class PostLoginHandler extends DefaultHandler {
     res.redirect('/home');
   }
   getValidUser(req, res) {
-    return registeredUsers.find(function (regUser) {
+    return this.registeredUsers.find(function (regUser) {
       return regUser.userName == req.body.userName;
     });
   }

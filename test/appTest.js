@@ -4,16 +4,22 @@ const testHelper = require('./testHelper.js');
 let sessionId = '12345';
 describe('App Test',()=>{
   describe('/',()=>{
-    it('should serve login page',(done)=>{
-      request(app,{method:'GET',url:'/'},(res)=>{
+    it('should serve login page for logged user',(done)=>{
+      request(app,{method:'GET',url:'/',user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,200);
+        done();
+      })
+    })
+    it('should redirect to login for not loggedin user',(done)=>{
+      request(app,{method:'GET',url:'/'},(res)=>{
+        testHelper.isEqualStatusCode(res,302);
         done();
       })
     })
   })
   describe('404,Page Not Found ',()=>{
     it('should show page not found for invalid/bad request',(done)=>{
-      request(app,{method:'GET',url:'/badFile'},(res)=>{
+      request(app,{method:'GET',url:'/badFile',user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,404);
         done();
       })
@@ -65,7 +71,7 @@ describe('App Test',()=>{
       })
     })
     it('should redirect to login and delete all cookies',(done)=>{
-      request(app,{method:'GET',url:'/logout',headers:{'cookie':`sessionId=${sessionId}`}},(res)=>{
+      request(app,{method:'GET',url:'/logout',headers:{'cookie':`sessionId=${sessionId}`},user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.isRedirectTo(res,'/login');
         testHelper.shouldNotHaveCookie(res,'sessionId',sessionId);
@@ -75,25 +81,39 @@ describe('App Test',()=>{
   })
   describe('home',()=>{
     it('should show home page when user has session',(done)=>{
-      request(app,{method:'GET',url:'/home',headers:{'cookie':`sessionId=${sessionId}`}},(res)=>{
+      request(app,{method:'GET',url:'/home',headers:{'cookie':`sessionId=${sessionId}`},user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,200);
         testHelper.isBodyContains(res,'Home');
+        done();
+      })
+    })
+    it('should redirect to login when user not have sesssion',(done)=>{
+      request(app,{method:'GET',url:'/home'},(res)=>{
+        testHelper.isEqualStatusCode(res,302);
+        testHelper.isRedirectTo(res,'/login');
         done();
       })
     }) 
   })
   describe('create',()=>{
     it('should show creat todo page when user has session',(done)=>{
-      request(app,{method:'GET',url:'/create',headers:{'cookie':`sessionId=${sessionId}`}},(res)=>{
+      request(app,{method:'GET',url:'/create',headers:{'cookie':`sessionId=${sessionId}`},user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,200);
         testHelper.isBodyContains(res,'Create TODO')
+        done();
+      })
+    })
+    it('should redirect to login when user not have sesssion',(done)=>{
+      request(app,{method:'GET',url:'/create'},(res)=>{
+        testHelper.isEqualStatusCode(res,302);
+        testHelper.isRedirectTo(res,'/login');
         done();
       })
     })
   })
   describe('add todo',()=>{
     it('should add todo and redirect to home',(done)=>{
-      request(app,{method:'POST',url:'/addTodo',body:'title=todoApp&desc=create todo&items=view&items=delete',headers:{'cookie':`userName=dhana`}},(res)=>{
+      request(app,{method:'POST',url:'/addTodo',body:'title=todoApp&desc=create todo&items=view&items=delete',headers:{'cookie':`userName=dhana`},user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.isRedirectTo(res,'/home');        
         done();
@@ -102,7 +122,7 @@ describe('App Test',()=>{
   })
   describe('view todo',()=>{
     it('should view specific todo in view page',(done)=>{
-      request(app,{method:'GET',url:'/dhana/todo/1',headers:{'cookie':`userName=dhana`}},(res)=>{
+      request(app,{method:'GET',url:'/dhana/todo/1',headers:{'cookie':`userName=dhana`},user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,200);
         testHelper.isBodyContains(res,'View Todo');        
         done();
@@ -111,7 +131,7 @@ describe('App Test',()=>{
   })
   describe('delete todo',()=>{
     it('should delete todo from todo list',(done)=>{
-      request(app,{method:'GET',url:'/delete-todo',headers:{'cookie':`todoId=1`}},(res)=>{
+      request(app,{method:'GET',url:'/delete-todo',headers:{'cookie':`todoId=1`},user:'dhana'},(res)=>{
         testHelper.isEqualStatusCode(res,302);
         testHelper.isRedirectTo(res,'/home');
         done();

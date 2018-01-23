@@ -1,13 +1,12 @@
 const DefaultHandler = require('./defaultHandler.js');
-const registeredUsers = [{userName:'dhana'}]
-
 class LoadUser extends DefaultHandler {
-  constructor(){
+  constructor(users){
     super();
+    this.registeredUsers = users;
   }
   execute(req,res){
     let sessionId = req.cookie.sessionId;
-    let user = registeredUsers.find(regUser => regUser.sessionId == sessionId);
+    let user = this.registeredUsers.find(regUser => regUser.sessionId == sessionId);
     if (sessionId && user) {
       req.user = user;
     }
