@@ -12,7 +12,7 @@ class ViewTodoHandler extends DefaultHandler {
       let todoTemplate = this.todoHandler.getTodoTemplate(todoId);
       let data = this.fs.readFileSync(`public/view.html`,'utf-8');
       data = data.replace(/TODO_DETAILS/,todoTemplate);
-      res.setHeader('Set-Cookie',`todoId=${todoId}`);
+      res.setHeader('Set-Cookie',`todoId=${todoId}; path=/`);
       res.setHeader('content-type','text/html');
       res.write(data);
       res.end();

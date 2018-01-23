@@ -1,8 +1,7 @@
 const app = require('../app.js');
 const request = require('./testSetup.js');
 const testHelper = require('./testHelper.js');
-let sessionId = new Date().getTime();
-process.env.sessionId = sessionId;
+let sessionId = '12345';
 describe('App Test',()=>{
   describe('/',()=>{
     it('should serve login page',(done)=>{

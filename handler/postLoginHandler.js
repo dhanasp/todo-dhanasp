@@ -13,7 +13,7 @@ class PostLoginHandler extends DefaultHandler {
       this.showLoginFailed(res);
       return;
     }
-    let sessionId = process.env.sessionId || new Date().getTime();
+    let sessionId = new Date().getTime();
     user.sessionId = sessionId;
     res.setHeader('Set-Cookie', [`sessionId=${sessionId}`, `userName=${user.userName}`]);
     this.todoHandler.setUser(user.userName);

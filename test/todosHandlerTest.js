@@ -52,10 +52,17 @@ describe('Todos Handlers',()=>{
   })
   describe('tests for items',()=>{
     describe('add Items',()=>{
-      it('should add given items',()=>{
+      it('should add multiple items',()=>{
         let items=new Items();
         items.add(['eat','sleep']);
         let expected={1:{name:'eat',isDone:false},2:{name:'sleep',isDone:false}};
+        let actual=items.getItems();
+        assert.deepEqual(actual,expected);
+      })
+      it('should add single item',()=>{
+        let items=new Items();
+        items.add('eat');
+        let expected={1:{name:'eat',isDone:false}};
         let actual=items.getItems();
         assert.deepEqual(actual,expected);
       })

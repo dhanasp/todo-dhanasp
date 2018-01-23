@@ -5,6 +5,9 @@ class Items {
     this.id = 1;
   }
   add(itemList){
+    if(typeof(itemList)=='string'){
+      itemList = Array(itemList);
+    }
     itemList.forEach((itemName)=>{
       this.addNewItem(itemName);
     });
