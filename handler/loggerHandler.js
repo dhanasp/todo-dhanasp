@@ -9,11 +9,11 @@ class LoggerHandler extends DefaultHandler{
     this.fs=fs;
     this.filePath=filePath;
   }
-  execute(req,res){
+  execute(req,res,next){
     let logs = [`-------------------------`,`method=>${req.method} url=>${req.url}`,
-    `headers=>${toString(req.headers)}`,`cookie=>${toString(req.cookie)}`,
+    `headers=>${toString(req.headers)}`,`cookie=>${toString(req.cookies)}`,
     `body=>${toString(req.body)}`].join('\n');
-    this.fs.appendFile(this.filePath,logs,(err)=>{});
+    this.fs.appendFile(this.filePath,logs,next);
   }
 }
 

@@ -15,8 +15,9 @@ class PostLoginHandler extends DefaultHandler {
     }
     let sessionId = new Date().getTime();
     user.sessionId = sessionId;
-    res.setHeader('Set-Cookie', [`sessionId=${sessionId}`, `userName=${user.userName}`]);
-    this.todoHandler.setUser(user.userName);
+    res.cookie('sessionId',sessionId);
+    res.cookie('userName',user.userName);
+    // this.todoHandler.setUser(user.userName);
     res.redirect('/home');
   }
   getValidUser(req, res) {
@@ -25,7 +26,7 @@ class PostLoginHandler extends DefaultHandler {
     });
   }
   showLoginFailed(res) {
-    res.setHeader('Set-Cookie', `error=Invalid User`);
+    res.cookie('error','Invalid User');
     res.redirect('/login');
   }
 }

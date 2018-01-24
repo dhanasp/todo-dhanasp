@@ -4,12 +4,13 @@ class LoadUser extends DefaultHandler {
     super();
     this.registeredUsers = users;
   }
-  execute(req,res){
-    let sessionId = req.cookie.sessionId;
+  execute(req,res,next){
+    let sessionId = req.cookies.sessionId;
     let user = this.registeredUsers.find(regUser => regUser.sessionId == sessionId);
     if (sessionId && user) {
       req.user = user;
     }
+    next();
   }
 }
 

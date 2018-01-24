@@ -6,13 +6,11 @@ class HomePageHandler extends DefaultHandler {
     this.todoHandler=todoHandler;    
   }
   execute(req,res){
-    let user = req.cookie.userName;
+    let user = req.cookies.userName;
     let titlesTemplate = this.todoHandler.getTitlesTemplate(user);
     let data = this.fs.readFileSync(`public/home.html`,'utf-8');
     data = data.replace(/TODO_LIST/,titlesTemplate);
-    res.setHeader('content-type','text/html');
-    res.write(data);
-    res.end();
+    res.send(data);
   }
 }
 module.exports=HomePageHandler;

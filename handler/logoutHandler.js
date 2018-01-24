@@ -5,7 +5,9 @@ class LogoutHandler extends DefaultHandler {
   }
   execute(req, res) {
     let expireDate = new Date(0).toUTCString();
-    res.setHeader('Set-Cookie', [`sessionId; Expires=${expireDate}`,`userName; Expires=${expireDate}`,`todoId; Expires=${expireDate}`]);
+    res.clearCookie('sessionId');
+    res.clearCookie('userName');
+    res.clearCookie('todoId');
     delete req.user.sessionId;
     res.redirect('/login');
   }

@@ -4,12 +4,17 @@ class GetLoginHandler extends DefaultHandler {
     super();
     this.fs=fs;
   }
-  execute(req, res) {
-    let error = req.cookie.error || '';
+  execute(req, res,next) {
+    let error = req.cookies.error || '';
     if (error) {
       let expireDate = new Date(0).toUTCString();
-      res.setHeader('Set-Cookie', `error=; Expires=${expireDate}`)
+      res.clearCookie('error');
     }
+    this.fs.readFile('public/login.html','utf8',(err,data)=>{
+      data = data.replace(/LOGIN_ERROR/, error);
+      res.send(data);
+      next();
+    });
   }
 }
 module.exports = GetLoginHandler;

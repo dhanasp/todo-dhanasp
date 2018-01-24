@@ -1,49 +1,68 @@
-const webApp = require('./webApp.js');
+const express = require('express');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser=require('body-parser');
 const LoggerHandler = require('./handler/loggerHandler.js');
-const FileHandler = require('./handler/fileHandler.js');
 const GetLoginHandler = require('./handler/getLoginHandler.js');
 const PostLoginHandler = require('./handler/postLoginHandler.js');
 const LogoutHandler = require('./handler/logoutHandler.js');
 const LoadUser = require('./handler/loadUser.js');
-const PageNotFound = require('./handler/pageNotFound.js');
 const PostTodoHandler = require('./handler/postTodoHandler.js');
 const ViewTodoHandler = require('./handler/viewTodoHandler.js');
 const HomePageHandler = require('./handler/homePageHandler.js');
 
 const fs = require('fs');
-let app= webApp.create();
+let app = express();
 const TodoHandler = require('./todosHandler/todoHandler.js');
-let todoHandler = new TodoHandler();  
-const users = [{userName: 'dhana'}];
+let todoHandler = new TodoHandler();
+const users = [{
+  userName: 'dhana'
+}];
 
-const serveLogin = function(req,res){
-  req.url = '/login'
+const serveLogin = function (req, res, next) {
+  req.url = '/login';
+  next();
 };
 
-const deleteTodo=function(req,res){
-   let todoId=req.cookie.todoId;
-   todoHandler.deleteTodo(todoId);
-   res.redirect('/home');
+const deleteTodo = function (req, res,next) {
+  let todoId = req.cookies.todoId;
+  todoHandler.deleteTodo(todoId);
+  res.redirect('/home');
+  next();
 }
 
-const checkForLoggedUser = function(req,res){
-  if(req.url!='/login' && !req.user){
+const checkForLoggedUser = function (req, res, next) {
+  if (req.url != '/login' && !req.user) {
     res.redirect('/login');
   }
+  next()
 }
 
-app.use(new LoggerHandler(fs,'./request.log').getRequestHandler());
+const deleteItem = function (req, res) {
+  console.log(req.body);
+  let id = req.body.id;
+  console.log(id);
+
+  // todoHandler.deleteTodo(id);
+}
+
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(express.static('public'));
+
+app.use(new LoggerHandler(fs, './request.log').getRequestHandler());
 app.use(new LoadUser(users).getRequestHandler());
 app.use(checkForLoggedUser);
 app.get('/',serveLogin);
-app.get('/login',new GetLoginHandler(fs).getRequestHandler());
-app.post('/login',new PostLoginHandler(todoHandler,users).getRequestHandler());
+app.route('/login')
+  .get(new GetLoginHandler(fs).getRequestHandler())
+  .post(new PostLoginHandler(todoHandler, users).getRequestHandler());
 app.get('/logout',new LogoutHandler().getRequestHandler());
-app.get('/home',new HomePageHandler(fs,todoHandler).getRequestHandler());
+app.get('/home', new HomePageHandler(fs, todoHandler).getRequestHandler());
 app.get('/delete-todo',deleteTodo);
+// app.post('/deleteItem',deleteItem);
 app.post('/addTodo',new PostTodoHandler(todoHandler,fs,'public/js/data.js').getRequestHandler());
-app.postServe(new ViewTodoHandler(todoHandler,fs).getRequestHandler());
-app.postServe(new FileHandler('public',fs).getRequestHandler());
-app.postServe(new PageNotFound().getRequestHandler());
+app.use(new ViewTodoHandler(todoHandler,fs).getRequestHandler());
 
 module.exports = app;

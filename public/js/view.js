@@ -6,5 +6,8 @@ const deleteItem=function(){
 }
 
 const updateItems=function(id){
-  
+  let req=new XMLHttpRequest();    
+  req.open('POST','/deleteItem');
+  req.send(`id=${id}`);
+
 }
