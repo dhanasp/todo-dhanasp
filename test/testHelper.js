@@ -6,15 +6,21 @@ const isEqualStatusCode=(res, expected)=>{
 };
 exports.isEqualStatusCode = isEqualStatusCode;
 
-const shouldHaveCookie = (res,cookie,message)=>{
-  let cookieText = res.headers['Set-Cookie'];
-  assert.include(cookieText,`${cookie}=${message}`);
+const shouldHaveCookie = (cookieName,message)=>{
+  return (res)=>{
+    let cookieText = res.header['set-cookie'].join();
+    let toCheck = encodeURI(`${cookieName}=${message}`);
+    assert.include(cookieText,toCheck);
+  }
 };
 exports.shouldHaveCookie = shouldHaveCookie;
 
-const shouldNotHaveCookie = (res,cookie,message)=>{
-  let cookieText = res.headers['Set-Cookie'];
-  assert.notInclude(cookieText,`${cookie}=${message}`);
+const shouldNotHaveCookie = (cookieName,message)=>{
+  return (res)=>{
+    let cookieText = res.headers['set-cookie'].join();
+    let toCheck = encodeURI(`${cookieName}=${message}`);    
+    assert.notInclude(cookieText,toCheck);
+  }
 };
 exports.shouldNotHaveCookie = shouldNotHaveCookie;
 

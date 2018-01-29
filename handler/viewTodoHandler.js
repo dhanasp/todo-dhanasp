@@ -5,7 +5,7 @@ class ViewTodoHandler extends DefaultHandler {
     this.todoHandler = todoHandler;
     this.fs = fs;
   }
-  execute(req,res){
+  execute(req,res,next){
     let user = req.cookies.userName;
     if(req.url.startsWith(`/${user}/todo/`)){
       let todoId = req.url.split('/').pop();
@@ -15,6 +15,7 @@ class ViewTodoHandler extends DefaultHandler {
       res.cookie('todoId',todoId ,{path:'/'});
       res.send(data);
     }
+    next();
   }
 }
 module.exports = ViewTodoHandler;

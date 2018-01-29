@@ -8,7 +8,7 @@ class LogoutHandler extends DefaultHandler {
     res.clearCookie('sessionId');
     res.clearCookie('userName');
     res.clearCookie('todoId');
-    delete req.user.sessionId;
+    req.user && delete req.user.sessionId;
     res.redirect('/login');
   }
 }

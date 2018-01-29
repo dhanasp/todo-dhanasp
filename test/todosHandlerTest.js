@@ -145,7 +145,7 @@ describe('Todos Handlers',()=>{
         let todoHandler = new TodoHandler();
         todoHandler.addTodo({title:'todoApp',desc:'create app',items:['view']});
         let actual = todoHandler.getTodoTemplate(1);
-        let expected = `Title: <label>todoApp</label><br>Description: <label>create app</label><br><input type="checkbox" id="1"><label id="1"> view </label><button id="1"> Delete </button>`
+        let expected = `Title: <label>todoApp</label><br>Description: <label>create app</label><br><div id="items"><p id=1><input type="checkbox" id="1"><label id="1"> view </label><button id="1" onclick="deleteItem()"> Delete </button></p></div>`
         assert.deepEqual(actual,expected);                              
       })
     })

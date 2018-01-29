@@ -1,5 +1,5 @@
 const Todos = require('./todos.js');
-const lib = require('../lib.js');
+const createTodoTemplate = require('../templates/todoTemplate.js');
 class TodoHandler {
   constructor(){
     this.user=undefined;
@@ -25,7 +25,7 @@ class TodoHandler {
   }
   getTodoTemplate(todoId){
     let todo = this.data[todoId];
-    return lib.getTemplate(todo);
+    return createTodoTemplate(todo);
   }
   deleteTodo(todoId){
     this.todos.delete(todoId);
