@@ -4,7 +4,7 @@ class GetLoginHandler extends DefaultHandler {
     super();
     this.fs=fs;
   }
-  execute(req, res,next) {
+  execute(req, res) {
     let error = req.cookies.error || '';
     if (error) {
       let expireDate = new Date(0).toUTCString();
@@ -13,7 +13,6 @@ class GetLoginHandler extends DefaultHandler {
     this.fs.readFile('public/login.html','utf8',(err,data)=>{
       data = data.replace(/LOGIN_ERROR/, error);
       res.send(data);
-      next();
     });
   }
 }

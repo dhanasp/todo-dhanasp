@@ -1,10 +1,10 @@
 const createTodoTemplate=function(todo){
   if(!todo) return '';
-  let titleTemp = `Title: <label>${todo.title}</label>`
-  let descTemp = `Description: <label>${todo.desc}</label>`
+  let titleTemp = `<div id=\"title\">Title: ${todo.title}</div>`
+  let descTemp = `<div id=\"desc\">Description: ${todo.desc}</div>`
   let itemTemp = Object.keys(todo.items).map(itemId=>{
-    return `<p id=${itemId}><input type=\"checkbox\" id=\"${itemId}\"><label id=\"${itemId}\"> ${todo.items[itemId].name} </label><button id=\"${itemId}\" onclick=\"deleteItem()\"> Delete </button></p>`;
-  }).join('<br>');
+    return `<div id=${itemId}><input type=\"checkbox\" id=\"${itemId}\"><span id=\"${itemId}\"> ${todo.items[itemId].name} </span><button id=\"${itemId}\" onclick=\"editItem()\"> Edit </button><button id=\"${itemId}\" onclick=\"deleteItem()\"> Delete </button></div>`;
+  }).join('');
   return [titleTemp,descTemp,`<div id=\"items\">${itemTemp}</div>`].join('<br>');
 }
 module.exports = createTodoTemplate;

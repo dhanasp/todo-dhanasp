@@ -10,6 +10,7 @@ class HomePageHandler extends DefaultHandler {
     let titlesTemplate = this.todoHandler.getTitlesTemplate(user);
     let data = this.fs.readFileSync(`public/home.html`,'utf-8');
     data = data.replace(/TODO_LIST/,titlesTemplate);
+    data=data.replace(/USERNAME:/,user);
     res.send(data);
   }
 }

@@ -136,7 +136,7 @@ describe('Todos Handlers',()=>{
         let todoHandler = new TodoHandler();
         todoHandler.addTodo({title:'todoApp',desc:'create app',items:['view']});
         let actual = todoHandler.getTitlesTemplate('dhana');
-        let expected= `<a href="dhana/todo/1">todoApp</a>`
+        let expected= `<a href="user/dhana/todo/1">todoApp</a>`
         assert.deepEqual(actual,expected);                      
       })
     })
@@ -145,7 +145,7 @@ describe('Todos Handlers',()=>{
         let todoHandler = new TodoHandler();
         todoHandler.addTodo({title:'todoApp',desc:'create app',items:['view']});
         let actual = todoHandler.getTodoTemplate(1);
-        let expected = `Title: <label>todoApp</label><br>Description: <label>create app</label><br><div id="items"><p id=1><input type="checkbox" id="1"><label id="1"> view </label><button id="1" onclick="deleteItem()"> Delete </button></p></div>`
+        let expected = `<div id="title">Title: todoApp</div><br><div id="desc">Description: create app</div><br><div id="items"><div id=1><input type="checkbox" id="1"><span id="1"> view </span><button id="1" onclick="editItem()"> Edit </button><button id="1" onclick="deleteItem()"> Delete </button></div></div>`
         assert.deepEqual(actual,expected);                              
       })
     })

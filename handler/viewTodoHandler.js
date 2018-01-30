@@ -6,16 +6,18 @@ class ViewTodoHandler extends DefaultHandler {
     this.fs = fs;
   }
   execute(req,res,next){
-    let user = req.cookies.userName;
-    if(req.url.startsWith(`/${user}/todo/`)){
-      let todoId = req.url.split('/').pop();
+    let user = req.params.user;
+    let todoId = req.params.id;
+    if(user==req.cookies.userName && todoId>0){
       let todoTemplate = this.todoHandler.getTodoTemplate(todoId);
       let data = this.fs.readFileSync(`public/view.html`,'utf-8');
       data = data.replace(/TODO_DETAILS/,todoTemplate);
       res.cookie('todoId',todoId ,{path:'/'});
+      req.url = '/';
       res.send(data);
+      return;
     }
-    next();
+    res.redirect('/login');
   }
 }
 module.exports = ViewTodoHandler;

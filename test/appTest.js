@@ -129,7 +129,7 @@ describe('App Test',()=>{
   describe('view todo',()=>{
     it('should view specific todo in view page',(done)=>{
       request(app)
-        .get('/dhana/todo/1')
+        .get('/user/dhana/todo/1')
         .set('cookie','userName=dhana')
         .expect(200)
         .expect('Content-Type',/html/)

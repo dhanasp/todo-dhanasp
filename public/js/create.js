@@ -8,6 +8,7 @@ const addItem=function(){
   input.type="text";
   document.getElementById('itemList').appendChild(input);
   document.getElementById('itemList').appendChild(br)
+  input.focus();
 }
 
 window.onload=loadPage;

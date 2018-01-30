@@ -1,5 +1,6 @@
 const Todos = require('./todos.js');
 const createTodoTemplate = require('../templates/todoTemplate.js');
+const createTitleTemplate = require('../templates/titleTemplate.js');
 class TodoHandler {
   constructor(){
     this.user=undefined;
@@ -15,10 +16,7 @@ class TodoHandler {
     this.data = this.todos.getTodos();    
   }
   getTitlesTemplate(user){
-    let todoId = Object.keys(this.data);
-    return todoId.map((id)=>{
-      return `<a href=\"${user}/todo/${id}\">${this.data[id].title}</a>`;
-    }).join('<br>');
+    return createTitleTemplate(user,this.data);
   }
   getUserTodos(){
     return this.data;

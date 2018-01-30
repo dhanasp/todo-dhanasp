@@ -2,14 +2,23 @@
 <html lang="en">
 <head>
   <title>view</title>
-  <script src="../../js/view.js"></script>
+  <script src="../../../js/view.js"></script>
+  <link rel="stylesheet" href="../../../css/style.css">
 </head>
 <body>
+  <h3><a href="/home">HOME</a></h3>
   <h3>View Todo</h3>
   <div>
     TODO_DETAILS
   </div>
-  <input type="button" name="addItem" value="+" >
-  <a href="../../delete-todo">Delete</a>
+  <div class="inputText hidden" >
+    <input type="text" value="" name="text" >
+    <input type="submit" value="add">
+    <input type="submit" value="cancel">
+  </div>
+
+  <input type="submit" name="addItem" value="addItem" id="addItem" ><br>
+
+  <a href="../../../delete-todo">Delete</a>
 </body>
 </html>

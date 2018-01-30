@@ -63,15 +63,15 @@ app.use(checkForLoggedUser);
 app.use(express.static('public'));
 
 app.use(new LoggerHandler(fs, './request.log').getRequestHandler());
-app.use(new ViewTodoHandler(todoHandler,fs).getRequestHandler());
 app.get('/',serveLogin);
 app.route('/login')
-  .get(new GetLoginHandler(fs).getRequestHandler())
-  .post(new PostLoginHandler(todoHandler, users).getRequestHandler());
+.get(new GetLoginHandler(fs).getRequestHandler())
+.post(new PostLoginHandler(todoHandler, users).getRequestHandler());
 app.get('/logout',new LogoutHandler().getRequestHandler());
 app.get('/home', new HomePageHandler(fs, todoHandler).getRequestHandler());
 app.get('/delete-todo',deleteTodo);
 // app.post('/deleteItem',deleteItem);
 app.post('/addTodo',new PostTodoHandler(todoHandler,fs,'public/js/data.js').getRequestHandler());
+app.get(`/user/:user/todo/:id`,new ViewTodoHandler(todoHandler,fs).getRequestHandler());
 
 module.exports = app;
