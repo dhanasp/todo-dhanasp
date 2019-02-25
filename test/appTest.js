@@ -10,7 +10,7 @@ describe("App Test", () => {
     it("should serve login page", done => {
       request(app)
         .get("/")
-        .expect(201)
+        .expect(200)
         .expect(/Login/)
         .end(done);
     });
