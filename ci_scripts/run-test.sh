@@ -4,4 +4,5 @@ set -e
 echo "*********** running npm test **************"
 
 docker build -t test-todo .
-docker run --entrypoint "npm test" test-todo:latest
+docker run --entrypoint  "npm" test-todo:latest test
+
