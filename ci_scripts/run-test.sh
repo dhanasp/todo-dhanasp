@@ -3,5 +3,5 @@ set -e
 
 echo "*********** running npm test **************"
 
-npm test
-
+docker build -t test-todo .
+docker run test-todo "npm test"
